@@ -1,15 +1,13 @@
 //
-//  ImageLoader.swift
-//  PipedriveTask
+//  DataLoader.swift
 //
-//  Created by Voloshyn Slavik on 10/8/16.
 //  Copyright © 2016 Voloshyn Slavik. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-final class ImageLoader {
-    static let shared = ImageLoader()
+final class DataLoader {
+    static let shared = DataLoader()
     
     private lazy var downloadQueue: OperationQueue = {
         var queue = OperationQueue()
@@ -21,16 +19,17 @@ final class ImageLoader {
     private init() {
     }
     
-    func downloadImage(with url: String, callback: @escaping ((_ image: UIImage?)->Void)) {
-        if isFileInDownloadQueue(url: url) {
+    func downloadData(with url: String, callback: @escaping ((_ data: Data?) -> Void)) {
+        guard !isFileInDownloadQueue(url: url) else {
             return
         }
-        let operation = DownloadImageOperation(url: url, callback: callback)
+        
+        let operation = DownloadDataOperation(url: url, callback: callback)
         operation.name = url
         downloadQueue.addOperation(operation)
     }
     
-    func isFileInDownloadQueue(url: String) -> Bool{
+    private func isFileInDownloadQueue(url: String) -> Bool{
         for operation in downloadQueue.operations {
             if operation.name == url && !operation.isCancelled && !operation.isFinished {
                 return true
@@ -39,7 +38,7 @@ final class ImageLoader {
         return false
     }
     
-    func stopDownloadImage(with url: String) {
+    func stopDownload(with url: String) {
         for operation in downloadQueue.operations {
             if operation.name == url {
                 operation.cancel()

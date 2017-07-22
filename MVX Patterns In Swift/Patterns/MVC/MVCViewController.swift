@@ -62,15 +62,19 @@ extension MVCViewController {
 
    fileprivate func startLoadImage(for index: IndexPath) {
         let url = photos[index.row].0.url
-        ImageLoader.shared.downloadImage(with: url) { [weak self] (image) in
-            self?.photos[index.row].1 = image
+        DataLoader.shared.downloadData(with: url) { [weak self] (data) in
+            guard let data = data else {
+                return
+            }
+
+            self?.photos[index.row].1 = UIImage(data: data)
             self?.collectionView.reloadItems(at: [index])
         }
     }
 
     fileprivate func stopLoadImage(for index: IndexPath) {
         let url = photos[index.row].0.url
-        ImageLoader.shared.stopDownloadImage(with: url)
+        DataLoader.shared.stopDownload(with: url)
     }
 }
 

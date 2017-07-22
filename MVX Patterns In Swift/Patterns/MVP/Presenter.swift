@@ -5,10 +5,13 @@
 //  Created by Yaroslav Voloshyn on 18/07/2017.
 //
 
+import Foundation
+
 protocol Presenter {
 
-    func loadMorePhotos()
-
+    func loadMoreItems()
+    func startLoadPhoto(for index: Int)
+    func stopLoadPhoto(for index: Int)
 }
 
 final class ConcretePresenter {
@@ -17,14 +20,7 @@ final class ConcretePresenter {
     fileprivate let pxManager = PXManager()
 
     fileprivate var lastPageIndex: Int?
-    fileprivate var photos: [PXPhoto] = [] {
-        didSet {
-            let data: [(title: String, url: String)] = photos.map { (photo) -> (title: String, url: String) in
-                return (title: photo.name, url: photo.url)
-            }
-            view?.updateView(with: data)
-        }
-    }
+    fileprivate var photos: [(PXPhoto, Data?)] = []
     fileprivate var isLoading = false {
         didSet {
             if isLoading {
@@ -38,12 +34,18 @@ final class ConcretePresenter {
     init(view: View) {
         self.view = view
     }
-    
+
+    fileprivate func updateView() {
+        let data: [(title: String, data: Data?)] = photos.map { (photo) -> (title: String, data: Data?) in
+            return (title: photo.0.name, data: photo.1)
+        }
+        view?.updateView(with: data)
+    }
 }
 
 extension ConcretePresenter: Presenter {
 
-    func loadMorePhotos() {
+    func loadMoreItems() {
         guard !isLoading else {
             return
         }
@@ -53,23 +55,41 @@ extension ConcretePresenter: Presenter {
             pageIndex = lastPageIndex + 1
         }
 
-        loadPhotos(with: pageIndex)
+        loadItems(with: pageIndex)
     }
 
-    private func loadPhotos(with pageIndex: Int) {
+    private func loadItems(with pageIndex: Int) {
         isLoading = true
         pxManager.getPageWithPhotos(pageIndex) { [weak self] (page, error) in
             defer {
                 self?.isLoading = false
             }
 
-            guard let photos = page?.photos,
-                let sself = self else {
+            guard let photos = page?.photos else {
                     return
             }
 
-            sself.lastPageIndex = pageIndex
-            sself.photos.append(contentsOf: photos)
+            self?.lastPageIndex = pageIndex
+            photos.forEach { self?.photos.append(($0, nil)) }
+            self?.updateView()
+        }
+    }
+
+}
+
+// MARK: - Load Photo
+extension ConcretePresenter {
+
+    func stopLoadPhoto(for index: Int) {
+        let url = photos[index].0.url
+        DataLoader.shared.stopDownload(with: url)
+    }
+
+    func startLoadPhoto(for index: Int) {
+        let url = photos[index].0.url
+        DataLoader.shared.downloadData(with: url) { [weak self] (data) in
+            self?.photos[index].1 = data
+            self?.view?.updatePhoto(at: index, with: data)
         }
     }
 

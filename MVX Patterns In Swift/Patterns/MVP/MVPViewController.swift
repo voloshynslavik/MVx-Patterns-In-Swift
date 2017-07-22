@@ -11,16 +11,16 @@ protocol View: class {
 
     func showNetworkActivityIndicator()
     func hideNetworkActivityIndicator()
-    func updateView(with data: [(title: String, url: String)])
-
+    func updateView(with data: [(title: String, data: Data?)])
+    func updatePhoto(at index: Int, with data: Data?)
+    
 }
 
 private let cellId = "500px_image_cell"
 
 final class MVPViewController: UIViewController {
 
-    fileprivate var cachedImages: [String: UIImage] = [:]
-    fileprivate var data: [(title: String, url: String)] = [] {
+    fileprivate var data: [(title: String, data: Data?)] = [] {
         didSet {
             collectionView.reloadData()
         }
@@ -32,7 +32,7 @@ final class MVPViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: cellId)
-        presenter.loadMorePhotos()
+        presenter.loadMoreItems()
     }
 
 }
@@ -49,12 +49,12 @@ extension MVPViewController: UICollectionViewDelegateFlowLayout {
 
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        stopLoadImage(for: indexPath)
+        presenter.stopLoadPhoto(for: indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if (indexPath.row + 1) == data.count {
-            presenter.loadMorePhotos()
+            presenter.loadMoreItems()
         }
     }
 
@@ -73,45 +73,25 @@ extension MVPViewController: UICollectionViewDataSource {
         }
 
         cell.nameLabel.text = data[indexPath.row].title
-        let url = data[indexPath.row].url
-        if let image = cachedImages[url] {
-            cell.imageView.image = image
-        } else {
-            cell.imageView.image = nil
-            startLoadImage(for: indexPath)
-        }
+        cell.imageView.image = getImage(for: indexPath)
 
         return cell
     }
 
-}
-
-// MARK: - Image Loader
-extension MVPViewController {
-
-    fileprivate func stopLoadImage(for index: IndexPath) {
-        let url = data[index.row].url
-        ImageLoader.shared.stopDownloadImage(with: url)
-    }
-
-    fileprivate func startLoadImage(for index: IndexPath) {
-        let url = data[index.row].url
-        ImageLoader.shared.downloadImage(with: url) { [weak self] (image) in
-            guard let image = image else {
-                return
-            }
-
-            self?.cachedImages[url] = image
-            self?.collectionView.reloadItems(at: [index])
+    private func getImage(for indexPath: IndexPath) -> UIImage? {
+        guard let imageData = data[indexPath.row].data else {
+            presenter.startLoadPhoto(for: indexPath.row)
+            return nil
         }
-    }
 
+        return UIImage(data: imageData)
+    }
 }
 
-
+// MARK: - View
 extension MVPViewController: View {
 
-    func updateView(with data: [(title: String, url: String)]) {
+    func updateView(with data: [(title: String, data: Data?)]) {
         self.data = data
     }
 
@@ -123,4 +103,9 @@ extension MVPViewController: View {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 
+    func updatePhoto(at index: Int, with data: Data?) {
+        self.data[index].1 = data
+        let indexPath = IndexPath(row: index, section: 0)
+        collectionView.reloadItems(at: [indexPath])
+    }
 }

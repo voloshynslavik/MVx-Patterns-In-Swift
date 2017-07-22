@@ -20,7 +20,7 @@ final class MVVMViewController: UIViewController {
         super.viewDidLoad()
 
         collectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: cellId)
-        viewModel.loadMorePhotos()
+        viewModel.loadMoreItems()
     }
 
 }
@@ -36,38 +36,18 @@ extension MVVMViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.nameLabel.text = viewModel.getPhotoName(for: indexPath)
-        let url = viewModel.getPhotoUrl(for: indexPath)
-        if let image = cachedImages[url] {
-            cell.imageView.image = image
-        } else {
-            cell.imageView.image = nil
-            startLoadImage(for: indexPath)
-        }
+        cell.nameLabel.text = viewModel.getPhotoName(for: indexPath.row)
+         cell.imageView.image = getImage(for: indexPath)
 
         return cell
     }
 
-}
-
-// MARK: - Image Loader
-extension MVVMViewController {
-
-    fileprivate func stopLoadImage(for index: IndexPath) {
-        let url = viewModel.getPhotoUrl(for: index)
-        ImageLoader.shared.stopDownloadImage(with: url)
-    }
-
-    fileprivate func startLoadImage(for index: IndexPath) {
-        let url = viewModel.getPhotoUrl(for: index)
-        ImageLoader.shared.downloadImage(with: url) { [weak self] (image) in
-            guard let image = image else {
-                return
-            }
-
-            self?.cachedImages[url] = image
-            self?.collectionView.reloadItems(at: [index])
+    private func getImage(for indexPath: IndexPath) -> UIImage? {
+        guard let imageData = viewModel.getPhotoData(for: indexPath.row) else {
+            return nil
         }
+
+        return UIImage(data: imageData)
     }
 
 }
@@ -84,17 +64,18 @@ extension MVVMViewController: UICollectionViewDelegateFlowLayout {
 
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        stopLoadImage(for: indexPath)
+        viewModel.stopLoadPhoto(for: indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if (indexPath.row + 1) == viewModel.photosCount {
-            viewModel.loadMorePhotos()
+            viewModel.loadMoreItems()
         }
     }
 
 }
 
+// MARK: - ViewModelDelegate
 extension MVVMViewController: ViewModelDelegate {
 
     func didLoadingStateChanged(in viewModel: ViewModel, from oldState: Bool, to newState:Bool) {
@@ -105,4 +86,8 @@ extension MVVMViewController: ViewModelDelegate {
         collectionView.reloadData()
     }
 
+    func didDownloadPhoto(in viewMode: ViewModel, with index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        collectionView.reloadItems(at: [indexPath])
+    }
 }

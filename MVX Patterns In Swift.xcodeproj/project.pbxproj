@@ -19,8 +19,8 @@
 		7A6295EF1F1E770000875D54 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6295EE1F1E770000875D54 /* Presenter.swift */; };
 		7AD665CB1F17313500F5352E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD665CA1F17313500F5352E /* AppDelegate.swift */; };
 		7AD665D21F17313500F5352E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AD665D11F17313500F5352E /* Assets.xcassets */; };
-		7ADE68751F1A20E30098B09D /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2D5F3D1F1A1B80004D5042 /* ImageLoader.swift */; };
-		7ADE68761F1A20E30098B09D /* DownloadImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2D5F3E1F1A1B80004D5042 /* DownloadImageOperation.swift */; };
+		7ADE68751F1A20E30098B09D /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2D5F3D1F1A1B80004D5042 /* DataLoader.swift */; };
+		7ADE68761F1A20E30098B09D /* DownloadDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2D5F3E1F1A1B80004D5042 /* DownloadDataOperation.swift */; };
 		7ADE687C1F1CD2950098B09D /* MVVMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADE687B1F1CD2950098B09D /* MVVMViewController.swift */; };
 		7ADE687E1F1CD2BC0098B09D /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADE687D1F1CD2BC0098B09D /* ModelView.swift */; };
 		7AE7DF831F17357300618A54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AE7DF7F1F17357300618A54 /* LaunchScreen.storyboard */; };
@@ -35,8 +35,8 @@
 		7A2D5F281F1A07BA004D5042 /* MVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCViewController.swift; sourceTree = "<group>"; };
 		7A2D5F391F1A0CD9004D5042 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		7A2D5F3B1F1A0D10004D5042 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
-		7A2D5F3D1F1A1B80004D5042 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		7A2D5F3E1F1A1B80004D5042 /* DownloadImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImageOperation.swift; sourceTree = "<group>"; };
+		7A2D5F3D1F1A1B80004D5042 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		7A2D5F3E1F1A1B80004D5042 /* DownloadDataOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadDataOperation.swift; sourceTree = "<group>"; };
 		7A6295EA1F1E710600875D54 /* PatternsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternsTableViewController.swift; sourceTree = "<group>"; };
 		7A6295EC1F1E76D700875D54 /* MVPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVPViewController.swift; sourceTree = "<group>"; };
 		7A6295EE1F1E770000875D54 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
@@ -106,13 +106,13 @@
 			path = MVP;
 			sourceTree = "<group>";
 		};
-		7A2D5F331F1A0993004D5042 /* ImageLoader */ = {
+		7A2D5F331F1A0993004D5042 /* Data Loader */ = {
 			isa = PBXGroup;
 			children = (
-				7A2D5F3D1F1A1B80004D5042 /* ImageLoader.swift */,
-				7A2D5F3E1F1A1B80004D5042 /* DownloadImageOperation.swift */,
+				7A2D5F3D1F1A1B80004D5042 /* DataLoader.swift */,
+				7A2D5F3E1F1A1B80004D5042 /* DownloadDataOperation.swift */,
 			);
-			path = ImageLoader;
+			path = "Data Loader";
 			sourceTree = "<group>";
 		};
 		7A2D5F381F1A0CB9004D5042 /* Views */ = {
@@ -137,7 +137,7 @@
 		7AA83CEC1F17372300C15111 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				7A2D5F331F1A0993004D5042 /* ImageLoader */,
+				7A2D5F331F1A0993004D5042 /* Data Loader */,
 				7A02F2271F17C72B0027D168 /* 500PX */,
 			);
 			path = Utils;
@@ -260,9 +260,9 @@
 				7A2D5F291F1A07BA004D5042 /* MVCViewController.swift in Sources */,
 				7A02F22E1F17C72B0027D168 /* PXPage.swift in Sources */,
 				7A02F2301F17C72B0027D168 /* PXManager.swift in Sources */,
-				7ADE68751F1A20E30098B09D /* ImageLoader.swift in Sources */,
+				7ADE68751F1A20E30098B09D /* DataLoader.swift in Sources */,
 				7ADE687E1F1CD2BC0098B09D /* ModelView.swift in Sources */,
-				7ADE68761F1A20E30098B09D /* DownloadImageOperation.swift in Sources */,
+				7ADE68761F1A20E30098B09D /* DownloadDataOperation.swift in Sources */,
 				7A6295EF1F1E770000875D54 /* Presenter.swift in Sources */,
 				7ADE687C1F1CD2950098B09D /* MVVMViewController.swift in Sources */,
 				7A02F22F1F17C72B0027D168 /* PXPhoto.swift in Sources */,

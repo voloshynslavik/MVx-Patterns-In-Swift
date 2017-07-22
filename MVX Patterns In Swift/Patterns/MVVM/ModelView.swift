@@ -13,11 +13,7 @@ final class ViewModel: NSObject {
 
     fileprivate let pxManager = PXManager()
     fileprivate var lastPageIndex: Int?
-    fileprivate var photos: [PXPhoto] = [] {
-        didSet {
-            delegate?.didUpdatedData(in: self)
-        }
-    }
+    fileprivate var photos: [(PXPhoto, Data?)] = []
     fileprivate var isLoading = false {
         didSet {
             self.delegate?.didLoadingStateChanged(in: self, from: oldValue, to: isLoading)
@@ -28,22 +24,24 @@ final class ViewModel: NSObject {
         return photos.count
     }
 
-    func getPhotoUrl(for index: IndexPath) -> String {
-        return photos[index.row].url
+    func getPhotoData(for index: Int) -> Data? {
+        guard let data = photos[index].1 else {
+            startLoadPhoto(for: index)
+            return nil
+        }
+
+        return data
     }
 
-    func getPhotoName(for index: IndexPath) -> String {
-        return photos[index.row].name
+    func getPhotoName(for index: Int) -> String {
+        return photos[index].0.name
     }
-
-
-
 }
 
-// MARK: - Loading data
+// MARK: - Load items
 extension ViewModel {
 
-    func loadMorePhotos() {
+    func loadMoreItems() {
         guard !isLoading else {
             return
         }
@@ -53,10 +51,10 @@ extension ViewModel {
             pageIndex = lastPageIndex + 1
         }
 
-        loadPhotos(with: pageIndex)
+        loadItems(with: pageIndex)
     }
 
-    private func loadPhotos(with pageIndex: Int) {
+    private func loadItems(with pageIndex: Int) {
         isLoading = true
         pxManager.getPageWithPhotos(pageIndex) { [weak self] (page, error) in
             defer {
@@ -64,19 +62,45 @@ extension ViewModel {
             }
 
             guard let photos = page?.photos,
-                let sself = self else {
+                  let sself = self else {
                     return
             }
 
             sself.lastPageIndex = pageIndex
-            sself.photos.append(contentsOf: photos)
+            for photo in photos {
+                sself.photos.append((photo, nil))
+            }
+            sself.delegate?.didUpdatedData(in: sself)
         }
     }
+}
+
+// MARK: - Load Photo
+extension ViewModel {
+
+    func stopLoadPhoto(for index: Int) {
+        let url = photos[index].0.url
+        DataLoader.shared.stopDownload(with: url)
+    }
+
+    func startLoadPhoto(for index: Int) {
+        let url = photos[index].0.url
+        DataLoader.shared.downloadData(with: url) { [weak self] (data) in
+            guard let sself = self else {
+                return
+            }
+
+            sself.photos[index].1 = data
+            sself.delegate?.didDownloadPhoto(in: sself, with: index)
+        }
+    }
+
 }
 
 protocol ViewModelDelegate: class {
 
     func didLoadingStateChanged(in viewModel: ViewModel, from oldState: Bool, to newState:Bool)
     func didUpdatedData(in viewModel: ViewModel)
+    func didDownloadPhoto(in viewMode: ViewModel, with index: Int)
 
 }
