@@ -16,7 +16,7 @@ protocol Presenter {
 
 final class ConcretePresenter {
 
-    fileprivate weak var view: View?
+    fileprivate weak var view: PhotosView?
     fileprivate let pxManager = PXManager()
 
     fileprivate var lastPageIndex: Int?
@@ -31,7 +31,7 @@ final class ConcretePresenter {
         }
     }
 
-    init(view: View) {
+    init(view: PhotosView) {
         self.view = view
     }
 
@@ -89,7 +89,9 @@ extension ConcretePresenter {
         let url = photos[index].0.url
         DataLoader.shared.downloadData(with: url) { [weak self] (data) in
             self?.photos[index].1 = data
-            self?.view?.updatePhoto(at: index, with: data)
+            if let photo = self?.photos[index] {
+                self?.view?.updateCell(at: index, with: (title: photo.0.name, data: photo.1))
+            }
         }
     }
 

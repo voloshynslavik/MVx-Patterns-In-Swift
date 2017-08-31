@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol View: class {
+protocol PhotosView: class {
 
     func showNetworkActivityIndicator()
     func hideNetworkActivityIndicator()
     func updateView(with data: [(title: String, data: Data?)])
-    func updatePhoto(at index: Int, with data: Data?)
+    func updateCell(at index: Int, with data: (title: String, data: Data?))
     
 }
 
@@ -89,7 +89,7 @@ extension MVPViewController: UICollectionViewDataSource {
 }
 
 // MARK: - View
-extension MVPViewController: View {
+extension MVPViewController: PhotosView {
 
     func updateView(with data: [(title: String, data: Data?)]) {
         self.data = data
@@ -103,9 +103,10 @@ extension MVPViewController: View {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 
-    func updatePhoto(at index: Int, with data: Data?) {
-        self.data[index].1 = data
+    func updateCell(at index: Int, with data: (title: String, data: Data?)) {
+        self.data[index] = data
         let indexPath = IndexPath(row: index, section: 0)
         collectionView.reloadItems(at: [indexPath])
     }
 }
+
