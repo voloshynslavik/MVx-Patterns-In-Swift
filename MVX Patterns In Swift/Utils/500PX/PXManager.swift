@@ -18,7 +18,7 @@ final class PXManager: BaseHttpManager {
     }
     
     func getPageWithPhotos(_ pageIndex: Int = 1, callback: @escaping ((_ page: PXPage?, _ error: Error?) -> Void)) {
-        let url = "https://api.500px.com/v1/photos?only=nature&consumer_key=\(consumerKey)&page=\(pageIndex)"
+        let url = "https://api.500px.com/v1/photos?only=nature&consumer_key=\(consumerKey)&page=\(pageIndex)&image_size=4"
         _ = self.get(url) { [weak self] (data, _, error) in
 
             var page: PXPage?

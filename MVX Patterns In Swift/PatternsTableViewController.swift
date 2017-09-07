@@ -9,6 +9,14 @@ import UIKit
 
 class PatternsTableViewController: UITableViewController {
 
+    private lazy var mvvvmcCoordinator: MVVMCCoordinator? = {
+        guard let nc = self.navigationController else {
+            return nil
+        }
+
+        return MVVMCCoordinator(navigationController: nc)
+    }()
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let mvvmViewController = segue.destination as? MVVMViewController {
                 let viewModel = ViewModel()
@@ -21,5 +29,8 @@ class PatternsTableViewController: UITableViewController {
 
     }
 
+    @IBAction func onSelectMVVMC(_ sender: UITapGestureRecognizer) {
+        mvvvmcCoordinator?.start()
+    }
 
 }
