@@ -10,17 +10,18 @@ import Foundation
 protocol Presenter {
 
     func loadMoreItems()
-    func startLoadPhoto(for index: Int)
-    func stopLoadPhoto(for index: Int)
+    func startLoadPhoto(for index: Int, width: Int, height: Int)
+    func stopLoadPhoto(for index: Int, width: Int, height: Int)
+    
 }
 
 final class ConcretePresenter {
 
     fileprivate weak var view: PhotosView?
-    fileprivate let pxManager = PXManager()
+    fileprivate let picsumPhotos = PicsumPhotosManager()
 
     fileprivate var lastPageIndex: Int?
-    fileprivate var photos: [(PXPhoto, Data?)] = []
+    fileprivate var photos: [(PicsumPhoto, Data?)] = []
     fileprivate var isLoading = false {
         didSet {
             if isLoading {
@@ -37,7 +38,7 @@ final class ConcretePresenter {
 
     fileprivate func updateView() {
         let data: [(title: String, data: Data?)] = photos.map { (photo) -> (title: String, data: Data?) in
-            return (title: photo.0.name, data: photo.1)
+            return (title: photo.0.author, data: photo.1)
         }
         view?.updateView(with: data)
     }
@@ -60,17 +61,16 @@ extension ConcretePresenter: Presenter {
 
     private func loadItems(with pageIndex: Int) {
         isLoading = true
-        pxManager.getPageWithPhotos(pageIndex) { [weak self] (page, error) in
+        picsumPhotos.getPhotos(pageIndex) { [weak self] (photos, error) in
             defer {
                 self?.isLoading = false
             }
 
-            guard let photos = page?.photos else {
-                    return
+            photos?.forEach {
+                self?.photos.append(($0, nil))
             }
 
             self?.lastPageIndex = pageIndex
-            photos.forEach { self?.photos.append(($0, nil)) }
             self?.updateView()
         }
     }
@@ -80,17 +80,17 @@ extension ConcretePresenter: Presenter {
 // MARK: - Load Photo
 extension ConcretePresenter {
 
-    func stopLoadPhoto(for index: Int) {
-        let url = photos[index].0.url
+    func stopLoadPhoto(for index: Int, width: Int, height: Int) {
+        let url = photos[index].0.getResizedImageURL(width: width, height: height)
         DataLoader.shared.stopDownload(with: url)
     }
 
-    func startLoadPhoto(for index: Int) {
-        let url = photos[index].0.url
+    func startLoadPhoto(for index: Int, width: Int, height: Int) {
+        let url = photos[index].0.getResizedImageURL(width: width, height: height)
         DataLoader.shared.downloadData(with: url) { [weak self] (data) in
             self?.photos[index].1 = data
             if let photo = self?.photos[index] {
-                self?.view?.updateCell(at: index, with: (title: photo.0.name, data: photo.1))
+                self?.view?.updateCell(at: index, with: (title: photo.0.author, data: photo.1))
             }
         }
     }

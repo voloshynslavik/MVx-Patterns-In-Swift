@@ -11,10 +11,10 @@ private let cellId = "500px_image_cell"
 
 final class MVCViewController: UIViewController {
 
-    fileprivate let pxManager = PXManager()
+    fileprivate let photosManager = PicsumPhotosManager()
 
     fileprivate var lastPageIndex: Int?
-    fileprivate var photos: [(PXPhoto, UIImage?)] = []
+    fileprivate var photos: [(PicsumPhoto, UIImage?)] = []
     fileprivate var isLoading = false {
         didSet {
             UIApplication.shared.isNetworkActivityIndicatorVisible = isLoading
@@ -43,25 +43,22 @@ extension MVCViewController {
         if let lastPageIndex = lastPageIndex {
             pageIndex = lastPageIndex + 1
         }
-        pxManager.getPageWithPhotos(pageIndex) { [weak self] (page, error) in
+        photosManager.getPhotos(pageIndex) { [weak self] (photos, error) in
             defer {
                 self?.isLoading = false
             }
-
-            guard let photos = page?.photos else {
-                return
+            
+            photos?.forEach {
+                self?.photos.append(($0, nil))
             }
-
-            for photo in photos {
-                self?.photos.append((photo, nil))
-            }
+            
             self?.lastPageIndex = pageIndex
             self?.collectionView.reloadData()
         }
     }
 
-   fileprivate func startLoadImage(for index: IndexPath) {
-        let url = photos[index.row].0.url
+    fileprivate func startLoadImage(for index: IndexPath, size: CGSize) {
+        let url = photos[index.row].0.getResizedImageURL(width: Int(size.width), height: Int(size.height))
         DataLoader.shared.downloadData(with: url) { [weak self] (data) in
             guard let data = data else {
                 return
@@ -72,8 +69,8 @@ extension MVCViewController {
         }
     }
 
-    fileprivate func stopLoadImage(for index: IndexPath) {
-        let url = photos[index.row].0.url
+    fileprivate func stopLoadImage(for index: IndexPath, size: CGSize) {
+        let url = photos[index.row].0.getResizedImageURL(width: Int(size.width), height: Int(size.height))
         DataLoader.shared.stopDownload(with: url)
     }
 }
@@ -90,12 +87,12 @@ extension MVCViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.nameLabel.text = photos[indexPath.row].0.name
+        cell.nameLabel.text = photos[indexPath.row].0.author
         if let image = photos[indexPath.row].1 {
             cell.imageView.image = image
         } else {
             cell.imageView.image = nil
-            startLoadImage(for: indexPath)
+            startLoadImage(for: indexPath, size: cell.frame.size)
         }
 
         return cell
@@ -115,7 +112,7 @@ extension MVCViewController: UICollectionViewDelegateFlowLayout {
 
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        stopLoadImage(for: indexPath)
+        stopLoadImage(for: indexPath, size: cell.frame.size)
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

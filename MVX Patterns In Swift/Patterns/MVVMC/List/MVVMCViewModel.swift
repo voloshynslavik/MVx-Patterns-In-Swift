@@ -24,9 +24,9 @@ final class MVVMCViewModel: NSObject {
     weak var delegate: MVVMCViewModelDelegate?
     weak var coordinatorDelegate: MVVMCViewModelCoordinatorDelegate?
 
-    fileprivate let pxManager = PXManager()
+    fileprivate let picsumPhotos = PicsumPhotosManager()
     fileprivate var lastPageIndex: Int?
-    fileprivate var photos: [(PXPhoto, Data?)] = []
+    fileprivate var photos: [(PicsumPhoto, Data?)] = []
     fileprivate var isLoading = false {
         didSet {
             self.delegate?.didLoadingStateChanged(in: self, from: oldValue, to: isLoading)
@@ -37,23 +37,23 @@ final class MVVMCViewModel: NSObject {
         return photos.count
     }
 
-    func getPhotoData(for index: Int) -> Data? {
+    func getPhotoData(for index: Int, width: Int, height: Int) -> Data? {
         guard let data = photos[index].1 else {
-            startLoadPhoto(for: index)
+            startLoadPhoto(for: index, width: width, height: height)
             return nil
         }
-
+        
         return data
     }
-
-    func getPhotoName(for index: Int) -> String {
-        return photos[index].0.name
+    
+    func getPhotoAuthor(for index: Int) -> String {
+        return photos[index].0.author
     }
 
     func usePhotoAtIndex(_ index: Int) {
         if index < photosCount {
             let item = photos[index].0
-            coordinatorDelegate?.didSelectItem(withName: item.name, andUrl: item.url)
+            coordinatorDelegate?.didSelectItem(withName: item.author, andUrl: item.originalURL)
         }
     }
 }
@@ -65,30 +65,30 @@ extension MVVMCViewModel {
         guard !isLoading else {
             return
         }
-
+        
         var pageIndex = 1
         if let lastPageIndex = lastPageIndex {
             pageIndex = lastPageIndex + 1
         }
-
+        
         loadItems(with: pageIndex)
     }
 
     private func loadItems(with pageIndex: Int) {
         isLoading = true
-        pxManager.getPageWithPhotos(pageIndex) { [weak self] (page, error) in
+        
+        picsumPhotos.getPhotos(pageIndex) { [weak self] (photos, error) in
             defer {
                 self?.isLoading = false
             }
-
-            guard let photos = page?.photos,
-                let sself = self else {
-                    return
+            
+            guard let sself = self else {
+                return
             }
-
+            
             sself.lastPageIndex = pageIndex
-            for photo in photos {
-                sself.photos.append((photo, nil))
+            photos?.forEach {
+                sself.photos.append(($0, nil))
             }
             sself.delegate?.didUpdatedData(in: sself)
         }
@@ -98,18 +98,18 @@ extension MVVMCViewModel {
 // MARK: - Load Photo
 extension MVVMCViewModel {
 
-    func stopLoadPhoto(for index: Int) {
-        let url = photos[index].0.url
+    func stopLoadPhoto(for index: Int, width: Int, height: Int) {
+        let url = photos[index].0.getResizedImageURL(width: width, height: height)
         DataLoader.shared.stopDownload(with: url)
     }
-
-    func startLoadPhoto(for index: Int) {
-        let url = photos[index].0.url
+    
+    func startLoadPhoto(for index: Int, width: Int, height: Int) {
+        let url = photos[index].0.getResizedImageURL(width: width, height: height)
         DataLoader.shared.downloadData(with: url) { [weak self] (data) in
             guard let sself = self else {
                 return
             }
-
+            
             sself.photos[index].1 = data
             sself.delegate?.didDownloadPhoto(in: sself, with: index)
         }

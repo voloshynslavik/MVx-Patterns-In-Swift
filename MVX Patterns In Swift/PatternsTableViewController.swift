@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PatternsTableViewController: UITableViewController {
+final class PatternsTableViewController: UITableViewController {
 
     private lazy var mvvvmcCoordinator: MVVMCCoordinator? = {
         guard let nc = self.navigationController else {

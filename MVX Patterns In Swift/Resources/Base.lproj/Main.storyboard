@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zwS-7p-UTt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zwS-7p-UTt">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -28,7 +29,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MVC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xd4-be-bCL">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -48,7 +49,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MVP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dip-Ae-VAL">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -68,7 +69,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MVVM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="48W-5C-hZX">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -88,7 +89,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MVVM-C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NiD-0M-tp6">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -124,10 +125,6 @@
         <scene sceneID="MHB-FK-w6y">
             <objects>
                 <viewController title="MVC" id="NCH-Cg-ug1" customClass="MVCViewController" customModule="MVX_Patterns_In_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6XR-1b-FTq"/>
-                        <viewControllerLayoutGuide type="bottom" id="n29-nK-Qxp"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qpE-2h-P0M">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -150,11 +147,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="n29-nK-Qxp" firstAttribute="top" secondItem="UkN-Bu-5jr" secondAttribute="bottom" id="JAa-rW-3tD"/>
-                            <constraint firstItem="UkN-Bu-5jr" firstAttribute="leading" secondItem="qpE-2h-P0M" secondAttribute="leading" id="Qqd-bG-F2R"/>
-                            <constraint firstItem="UkN-Bu-5jr" firstAttribute="top" secondItem="6XR-1b-FTq" secondAttribute="bottom" id="efl-cb-qNx"/>
-                            <constraint firstAttribute="trailing" secondItem="UkN-Bu-5jr" secondAttribute="trailing" id="vzi-wK-Of9"/>
+                            <constraint firstAttribute="bottom" secondItem="UkN-Bu-5jr" secondAttribute="bottom" id="JAa-rW-3tD"/>
+                            <constraint firstItem="UkN-Bu-5jr" firstAttribute="leading" secondItem="5ZK-id-9mg" secondAttribute="leading" id="Qqd-bG-F2R"/>
+                            <constraint firstItem="UkN-Bu-5jr" firstAttribute="top" secondItem="5ZK-id-9mg" secondAttribute="top" id="efl-cb-qNx"/>
+                            <constraint firstItem="5ZK-id-9mg" firstAttribute="trailing" secondItem="UkN-Bu-5jr" secondAttribute="trailing" id="vzi-wK-Of9"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="5ZK-id-9mg"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="UkN-Bu-5jr" id="g56-rM-bCB"/>
@@ -168,10 +166,6 @@
         <scene sceneID="ZLz-6W-htf">
             <objects>
                 <viewController title="MVP" id="TT9-Kz-BUh" customClass="MVPViewController" customModule="MVX_Patterns_In_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="k7D-8J-WA9"/>
-                        <viewControllerLayoutGuide type="bottom" id="QKA-12-jIp"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Snq-lp-1Xc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,11 +188,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Itf-PF-3rE" firstAttribute="leading" secondItem="Snq-lp-1Xc" secondAttribute="leading" id="RlL-Jy-MZa"/>
-                            <constraint firstAttribute="trailing" secondItem="Itf-PF-3rE" secondAttribute="trailing" id="a7t-Xs-rXb"/>
-                            <constraint firstItem="Itf-PF-3rE" firstAttribute="top" secondItem="k7D-8J-WA9" secondAttribute="bottom" id="d1Q-LO-f1l"/>
-                            <constraint firstItem="QKA-12-jIp" firstAttribute="top" secondItem="Itf-PF-3rE" secondAttribute="bottom" id="je4-tB-ZIK"/>
+                            <constraint firstItem="Itf-PF-3rE" firstAttribute="leading" secondItem="gTh-rd-QOP" secondAttribute="leading" id="RlL-Jy-MZa"/>
+                            <constraint firstItem="gTh-rd-QOP" firstAttribute="trailing" secondItem="Itf-PF-3rE" secondAttribute="trailing" id="a7t-Xs-rXb"/>
+                            <constraint firstItem="Itf-PF-3rE" firstAttribute="top" secondItem="gTh-rd-QOP" secondAttribute="top" id="d1Q-LO-f1l"/>
+                            <constraint firstAttribute="bottom" secondItem="Itf-PF-3rE" secondAttribute="bottom" id="je4-tB-ZIK"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="gTh-rd-QOP"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="Itf-PF-3rE" id="zhF-d2-hrk"/>
@@ -212,10 +207,6 @@
         <scene sceneID="6es-Rg-p4p">
             <objects>
                 <viewController title="MVVM" id="s0D-eN-Wxf" customClass="MVVMViewController" customModule="MVX_Patterns_In_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Oam-aR-b7u"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZW1-aJ-LdS"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5CW-fK-MyY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -238,11 +229,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hCj-ky-qi3" firstAttribute="leading" secondItem="5CW-fK-MyY" secondAttribute="leading" id="9fq-EE-KpH"/>
-                            <constraint firstAttribute="trailing" secondItem="hCj-ky-qi3" secondAttribute="trailing" id="BqB-Y4-2js"/>
-                            <constraint firstItem="ZW1-aJ-LdS" firstAttribute="top" secondItem="hCj-ky-qi3" secondAttribute="bottom" id="jYM-Yg-bEl"/>
-                            <constraint firstItem="hCj-ky-qi3" firstAttribute="top" secondItem="Oam-aR-b7u" secondAttribute="bottom" id="uth-Pt-j1C"/>
+                            <constraint firstItem="hCj-ky-qi3" firstAttribute="leading" secondItem="f3F-qh-5pr" secondAttribute="leading" id="9fq-EE-KpH"/>
+                            <constraint firstItem="f3F-qh-5pr" firstAttribute="trailing" secondItem="hCj-ky-qi3" secondAttribute="trailing" id="BqB-Y4-2js"/>
+                            <constraint firstAttribute="bottom" secondItem="hCj-ky-qi3" secondAttribute="bottom" id="jYM-Yg-bEl"/>
+                            <constraint firstItem="hCj-ky-qi3" firstAttribute="top" secondItem="f3F-qh-5pr" secondAttribute="top" id="uth-Pt-j1C"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="f3F-qh-5pr"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="hCj-ky-qi3" id="0Kz-FJ-SsC"/>
@@ -274,10 +266,6 @@
         <scene sceneID="pzP-2E-YEH">
             <objects>
                 <viewController storyboardIdentifier="MVVMCViewController" title="MVVM-C" useStoryboardIdentifierAsRestorationIdentifier="YES" id="G6Y-cn-eNn" customClass="MVVMСViewController" customModule="MVX_Patterns_In_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zMe-ZJ-3Wm"/>
-                        <viewControllerLayoutGuide type="bottom" id="c4Z-6r-SkN"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="H02-h5-GQK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -300,11 +288,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="J3Y-7B-9nd" secondAttribute="trailing" id="0MG-KM-cqE"/>
-                            <constraint firstItem="J3Y-7B-9nd" firstAttribute="top" secondItem="zMe-ZJ-3Wm" secondAttribute="bottom" id="D1M-L9-cOW"/>
-                            <constraint firstItem="c4Z-6r-SkN" firstAttribute="top" secondItem="J3Y-7B-9nd" secondAttribute="bottom" id="UOH-jv-2AH"/>
-                            <constraint firstItem="J3Y-7B-9nd" firstAttribute="leading" secondItem="H02-h5-GQK" secondAttribute="leading" id="YKk-M9-uQw"/>
+                            <constraint firstItem="OFE-30-igy" firstAttribute="trailing" secondItem="J3Y-7B-9nd" secondAttribute="trailing" id="0MG-KM-cqE"/>
+                            <constraint firstItem="J3Y-7B-9nd" firstAttribute="top" secondItem="OFE-30-igy" secondAttribute="top" id="D1M-L9-cOW"/>
+                            <constraint firstAttribute="bottom" secondItem="J3Y-7B-9nd" secondAttribute="bottom" id="UOH-jv-2AH"/>
+                            <constraint firstItem="J3Y-7B-9nd" firstAttribute="leading" secondItem="OFE-30-igy" secondAttribute="leading" id="YKk-M9-uQw"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="OFE-30-igy"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="J3Y-7B-9nd" id="JUw-gc-2ES"/>
@@ -318,10 +307,6 @@
         <scene sceneID="amG-ff-N17">
             <objects>
                 <viewController storyboardIdentifier="MVVMCDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NOL-zm-3hZ" customClass="MVVMCDetailsViewController" customModule="MVX_Patterns_In_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ltv-hL-vLU"/>
-                        <viewControllerLayoutGuide type="bottom" id="Cx3-zG-hRg"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vrA-f1-uuy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -347,11 +332,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="7Bo-4Y-11v" firstAttribute="leading" secondItem="vrA-f1-uuy" secondAttribute="leading" id="Z13-wn-rBI"/>
-                            <constraint firstAttribute="trailing" secondItem="7Bo-4Y-11v" secondAttribute="trailing" id="ddk-Ib-FQK"/>
-                            <constraint firstItem="7Bo-4Y-11v" firstAttribute="top" secondItem="ltv-hL-vLU" secondAttribute="bottom" id="fkj-9q-MTm"/>
-                            <constraint firstItem="Cx3-zG-hRg" firstAttribute="top" secondItem="7Bo-4Y-11v" secondAttribute="bottom" id="w2y-MW-YOZ"/>
+                            <constraint firstItem="7Bo-4Y-11v" firstAttribute="leading" secondItem="Mpy-E3-doM" secondAttribute="leading" id="Z13-wn-rBI"/>
+                            <constraint firstItem="Mpy-E3-doM" firstAttribute="trailing" secondItem="7Bo-4Y-11v" secondAttribute="trailing" id="ddk-Ib-FQK"/>
+                            <constraint firstItem="7Bo-4Y-11v" firstAttribute="top" secondItem="Mpy-E3-doM" secondAttribute="top" id="fkj-9q-MTm"/>
+                            <constraint firstItem="Mpy-E3-doM" firstAttribute="bottom" secondItem="7Bo-4Y-11v" secondAttribute="bottom" id="w2y-MW-YOZ"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Mpy-E3-doM"/>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="1jT-Yg-uGB" id="0CV-nL-niS"/>

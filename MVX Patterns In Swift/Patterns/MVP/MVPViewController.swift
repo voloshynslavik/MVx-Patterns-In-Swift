@@ -49,7 +49,7 @@ extension MVPViewController: UICollectionViewDelegateFlowLayout {
 
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        presenter.stopLoadPhoto(for: indexPath.row)
+        presenter.stopLoadPhoto(for: indexPath.row, width: Int(cell.frame.size.width), height: Int(cell.frame.size.height))
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -80,7 +80,8 @@ extension MVPViewController: UICollectionViewDataSource {
 
     private func getImage(for indexPath: IndexPath) -> UIImage? {
         guard let imageData = data[indexPath.row].data else {
-            presenter.startLoadPhoto(for: indexPath.row)
+            let size = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAt: indexPath)
+            presenter.startLoadPhoto(for: indexPath.row, width: Int(size.width), height: Int(size.height))
             return nil
         }
 

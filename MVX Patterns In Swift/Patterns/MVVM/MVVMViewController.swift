@@ -36,14 +36,15 @@ extension MVVMViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.nameLabel.text = viewModel.getPhotoName(for: indexPath.row)
-         cell.imageView.image = getImage(for: indexPath)
+        cell.nameLabel.text = viewModel.getPhotoAuthor(for: indexPath.row)
+        cell.imageView.image = getImage(for: indexPath)
 
         return cell
     }
 
     private func getImage(for indexPath: IndexPath) -> UIImage? {
-        guard let imageData = viewModel.getPhotoData(for: indexPath.row) else {
+        let size = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAt: indexPath)
+        guard let imageData = viewModel.getPhotoData(for: indexPath.row, width: Int(size.width), height: Int(size.height)) else {
             return nil
         }
 
@@ -64,7 +65,7 @@ extension MVVMViewController: UICollectionViewDelegateFlowLayout {
 
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        viewModel.stopLoadPhoto(for: indexPath.row)
+        viewModel.stopLoadPhoto(for: indexPath.row, width: Int(cell.frame.width), height: Int(cell.frame.height))
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
